@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Button extends StatelessWidget {
-  const Button(
-      {super.key,
-      required this.text,
-      this.backgroundColor,
-      this.buttonPressed});
 
-  final String text;
-  final Color? backgroundColor;
-  final Function()? buttonPressed;
 
-  @override
-  Widget build(BuildContext context) {
-    final defaultColor = Colors.grey.shade800;
-    
+Widget Button(String text, Color? backgroundColor, void Function()? buttonPressed){
+  final defaultColor = Colors.grey.shade800;
     return Container(
       height: 60.h,
       width: 60.w,
@@ -29,7 +18,7 @@ class Button extends StatelessWidget {
         color: Colors.transparent,
         child: Container(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: buttonPressed,
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.all(0),
                 elevation: 0,
@@ -46,5 +35,4 @@ class Button extends StatelessWidget {
         ),
       ),
     );
-  }
 }

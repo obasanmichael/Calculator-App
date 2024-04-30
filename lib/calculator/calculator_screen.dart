@@ -1,7 +1,9 @@
 import 'package:calculator_app/calculator/components/button.dart';
+import 'package:calculator_app/calculator/components/button_data.dart';
 import 'package:calculator_app/calculator/components/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -11,6 +13,69 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
+  String _output = '0';
+  String equation = '0';
+  String expression = '';
+
+  buttonPressed(String buttonText) {
+    String containDecimal(dynamic result) {
+      if (result.toString().contains('.')) {
+        List<String> splitDecimal = result.toString().split('.');
+        if (!(int.parse(splitDecimal[1]) > 0)) {
+          return result = splitDecimal[0].toString();
+        }
+      }
+      return result;
+    }
+
+    setState(() {
+      if (buttonText == 'AC') {
+        equation = '0';
+        _output = '0';
+      } else if (buttonText == '⌫') {
+        equation = equation.substring(0, equation.length - 1);
+      } else if (buttonText == "+/-") {
+        if (equation[0] != '-') {
+          equation = '-$equation';
+        } else {
+          equation = equation.substring(1);
+        }
+      } else if (buttonText == "=") {
+        expression = equation;
+        expression = expression.replaceAll('×', '*');
+        expression = expression.replaceAll('/', '/');
+        expression = expression.replaceAll('%', '%');
+
+        try {
+          Parser p = Parser();
+          Expression exp = p.parse(expression);
+
+          ContextModel cm = ContextModel();
+          double result = exp.evaluate(EvaluationType.REAL, cm);
+
+          if (result % 1 == 0) {
+            _output = result.toInt().toString();
+          } else {
+            _output = result.toStringAsFixed(7); // Limit to 7 decimal places
+            _output = _output.replaceAll(
+                RegExp(r'\.?0*$'), ''); // Remove trailing zeroes
+            if (_output.contains('%')) {
+              _output = containDecimal(_output);
+            }
+          }
+        } catch (e) {
+          _output = "Error";
+        }
+      } else {
+        if (equation == "0") {
+          equation = buttonText;
+        } else {
+          equation = equation + buttonText;
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +92,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     Container(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        '1002 + 2409',
+                        equation,
                         style: TextStyle(
                             color: Colors.grey.shade800,
                             fontSize: 30.sp,
@@ -38,7 +103,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     Container(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        '3411',
+                        _output,
                         style: TextStyle(
                             color: Colors.grey.shade800,
                             fontSize: 45.sp,
@@ -56,28 +121,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   crossAxisCount: 4,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  children: const <Widget>[
-                    Button(text: 'C', backgroundColor: Color(0xFFB71C1C)),
-                    Button(text: '⌫', backgroundColor: Color(0xFF757575)),
-                    Button(text: '%', backgroundColor: Color(0xFF757575)),
-                    Button(text: '/', backgroundColor: Color(0xFF757575)),
-                    Button(text: '7'),
-                    Button(text: '8'),
-                    Button(text: '9'),
-                    Button(text: 'x', backgroundColor: Color(0xFF757575)),
-                    Button(text: '4'),
-                    Button(text: '5'),
-                    Button(text: '6'),
-                    Button(text: '-', backgroundColor: Color(0xFF757575)),
-                    Button(text: '1'),
-                    Button(text: '2'),
-                    Button(text: '3'),
-                    Button(text: '+', backgroundColor: Color(0xFF757575)),
-                    Button(text: '0'),
-                    Button(text: '00'),
-                    Button(text: '.'),
-                    Button(text: '=', backgroundColor: Color(0xFF757575)),
-                  ],
+                  children: buttonData
+                      .map((data) => Button(data.text, data.color,
+                          () => buttonPressed(data.text)))
+                      .toList(),
+                  
                 ),
               )
             ],
