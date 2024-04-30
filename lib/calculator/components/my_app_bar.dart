@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key});
 
   @override
@@ -14,7 +14,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       actions: [
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.settings),
+          icon: Icon(Icons.settings_outlined),
         ),
       ],
       elevation: 0,

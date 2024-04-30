@@ -1,23 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Button extends StatelessWidget {
-  const Button({super.key, required this.symbol, this.backgroundColor});
+  const Button(
+      {super.key,
+      required this.text,
+      this.backgroundColor,
+      this.buttonPressed});
 
-  final String symbol;
+  final String text;
   final Color? backgroundColor;
+  final Function()? buttonPressed;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 3, ),
-        child: ElevatedButton(
+    final defaultColor = Colors.grey.shade800;
+    final LinearGradient shadowGradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        Colors.grey.shade900.withOpacity(0.6),
+        Colors.transparent,
+      ],
+      stops: [0.0, 1.0],
+    );
+    return Container(
+      height: 60.h,
+      width: 60.w,
+      decoration: BoxDecoration(
+          color: backgroundColor ?? defaultColor,
+          borderRadius: BorderRadius.circular(10)),
+      padding: EdgeInsets.all(10),
+      child: Material(
+        elevation: 2,
+        shadowColor: backgroundColor,
+        color: Colors.transparent,
+        child: Container(
+          child: ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: backgroundColor
+                padding: EdgeInsets.all(0),
+                elevation: 0,
+                backgroundColor: backgroundColor ?? defaultColor,
+                shadowColor: defaultColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12))),
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.white, fontSize: 35),
+              textAlign: TextAlign.center,
             ),
-            
-            child: Text(symbol)),
+          ),
+        ),
       ),
     );
   }
