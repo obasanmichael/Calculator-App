@@ -15,15 +15,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultColor = Colors.grey.shade800;
-    final LinearGradient shadowGradient = LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: [
-        Colors.grey.shade900.withOpacity(0.6),
-        Colors.transparent,
-      ],
-      stops: [0.0, 1.0],
-    );
+    
     return Container(
       height: 60.h,
       width: 60.w,
