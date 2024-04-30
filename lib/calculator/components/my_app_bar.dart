@@ -14,7 +14,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.settings_outlined),
+          icon: Icon(
+            Icons.dark_mode_outlined,
+            size: 30,
+          ),
         ),
       ],
       elevation: 0,

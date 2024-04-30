@@ -79,7 +79,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade300,
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: MyAppBar(),
         body: Padding(
           padding: const EdgeInsets.all(15),
@@ -125,7 +125,6 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       .map((data) => Button(data.text, data.color,
                           () => buttonPressed(data.text)))
                       .toList(),
-                  
                 ),
               )
             ],
