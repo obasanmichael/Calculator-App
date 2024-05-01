@@ -94,7 +94,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       child: Text(
                         equation,
                         style: TextStyle(
-                            color: Colors.grey.shade800,
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w300),
                       ),
@@ -105,7 +105,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       child: Text(
                         _output,
                         style: TextStyle(
-                            color: Colors.grey.shade800,
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 45.sp,
                             fontWeight: FontWeight.w600),
                       ),
