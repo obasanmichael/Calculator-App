@@ -122,7 +122,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                   children: buttonData
-                      .map((data) => Button(data.text, data.color,
+                      .map((data) => button(context, data.text, data.color,
                           () => buttonPressed(data.text)))
                       .toList(),
                 ),
